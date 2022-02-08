@@ -4,10 +4,11 @@ plugins {
     `kotlin-dsl`
     id("java-gradle-plugin")
     id("com.gradle.plugin-publish") version "0.14.0"
+    `maven-publish`
 }
 
 group = "com.github.bjornvester"
-version = "1.6.0"
+version = "1.6.0.gradle7.1"
 
 allprojects {
     repositories {
@@ -61,4 +62,20 @@ pluginBundle {
                             |- Support grouping XSDs and generate them with different configurations""".trimMargin()
         }
     }
+}
+
+publishing {
+
+    repositories {
+        maven {
+            name = "maven"
+            url = uri("http://ei-nexus.agfahealthcare.com/repository/ei-releases/")
+            isAllowInsecureProtocol = true
+            credentials(PasswordCredentials::class) {
+                username = System.getenv("EI_NEXUS_USER")
+                password = System.getenv("EI_NEXUS_PASSWORD")
+            }
+        }
+    }
+
 }
